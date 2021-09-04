@@ -1,0 +1,16 @@
+//kuse sqlx::postgres::PgPoolOptions;
+use sqlx::mysql::MySqlPoolOptions;
+// etc.
+
+#[async_std::main]
+// or #[tokio::main]
+async fn main() -> Result<(), sqlx::Error> {
+    let pool = MySqlPoolOptions::new()
+        .max_connections(5)
+        .connect("mysql://root:PASSWORD@localhost:3306/multiverso").await?;
+
+//    sqlx::query("SELECT * FROM persona;").execute(&pool).await?;
+    sqlx::query("INSERT INTO multiverso.persona (id,nombre) VALUES (1,\"juan\");").execute(&pool).await?;
+
+    Ok(())
+}
